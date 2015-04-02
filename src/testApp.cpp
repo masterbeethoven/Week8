@@ -8,10 +8,10 @@ void testApp::setup(){
 	ofBackground(0, 0, 0);
 	ofSetVerticalSync(true);
 	ofEnableSmoothing();
-	ofSetFullscreen(true);
+	//ofSetFullscreen(true);
 	
-	w = 0;
-	h = 0;	// set in update()
+	w = ofGetWidth();
+	h = ofGetHeight();
 	
 	// listen on the given port
 	cout << "listening for osc messages on port " << PORT << "\n";
@@ -23,31 +23,30 @@ void testApp::update(){
 	// check for waiting messages
 	while( receiver.hasWaitingMessages() )
 	{
-		if(w == 0 || h == 0){
-			w = ofGetWidth();
-			h = ofGetHeight();
-		}
+		
+		
+		
 		// get the next message
 		ofxOscMessage m;
 		float x,y;
 		receiver.getNextMessage( &m );
 		
-		if ( m.getAddress() == "/wii/2/prya/0" )
+		if ( m.getAddress() == "/wii/2/accel/pry/0" )
 		{
 			x = m.getArgAsFloat( 0 );
 			wiiX = x * w;
 			cout << "x: " << wiiX << " y: " << wiiY << "\n";
 		}
-		else if ( m.getAddress() == "/wii/2/prya/1" )
-		{
-			y = 1 - m.getArgAsFloat( 0 );
-			wiiY = y * h;
-			cout << "x: " << wiiX << " y: " << wiiY << "\n";
-		}
-		else
-		{
-			cout << "unrecognized message: " << m.getAddress() << "\n";
-		}
+		/*else if ( m.getAddress() == "/wii/2/accel/pry/0" )
+		 {
+		 y = 1 - m.getArgAsFloat( 0 );
+		 wiiY = y * h;
+		 cout << "x: " << wiiX << " y: " << wiiY << "\n";
+		 }
+		 else
+		 {
+		 cout << "message: " << m.getAddress() << "\n";
+		 }*/
 	}
 }
 
